@@ -1,4 +1,5 @@
 # ScreenshotAllPage
+[![Python](https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/SDKs_copy_Python-48.png)](https://www.python.org/)[![JavaScript](https://cdn2.iconfinder.com/data/icons/designer-skills/128/code-programming-javascript-software-develop-command-language-48.png)](https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics)
 ### Предыстория
 Очень часто сталкивался с таким вопросом &quot; Как сделать скриншот html страницы в Python &quot;, &quot; Как сделать скриншот всей страницы в Python &quot; и даже пытался найти ответ на вопрос &quot; Screenshot all page from python &quot;, но поиски не давали упешных результатов и пришлось самостоятельно решать данную проблему. Именно этим и хочу с Вами поделиться.
 ### Алгоритм
@@ -7,16 +8,13 @@
 
 Как ни странно, но ответ на данный вопрос очень прост. Заранее оговорюсь, что работать мы будем в тестовом режиме, т.е. используя библиотеку [selenium](https://www.seleniumhq.org/), и драйвер [chromedriver](http://chromedriver.chromium.org/).
 1. С помощью драйвера загружаем сайт, для которого необходимо сделать скриншот;
-2. Используя `JavaScript` высчитываем ширину, высоту клиентского окна и высоту всей html страницы (Я подразумеваю, что ширина моей страницы не выходит за рамки клиентского окна);
+2. Используя `JavaScript` высчитываем ширину, высоту клиентского окна и высоту всей `html` страницы (Я подразумеваю, что ширина моей страницы не выходит за рамки клиентского окна);
 3. Объявляем новый обект `img` для дальнейшего построения в нем нашего скриншота;
 4. Используя `JavaScript` делаем прокрутку страницы на высоту клиентского окна и скриним каждый шаг, параллельно склеивая изображения в созданном объекте `img`.
 
 #### Подключаемся к работе
 Как мы можем обратить внимание, алгоритм довольно таки прост. Теперь поговорим о том, что мы будем использовать.
 Логично, что так как программа написана на [python](https://www.python.org/), то нам необходимо скачать его самого.
-| Наименование | Описание |
-| ---- | ---- |
-| Pillow  | Библиотека для работы с изображениями |
 Для построения объекта img нам понадобится библиотека [Pillow](https://pillow.readthedocs.io/en/5.3.x/installation.html), а конкретно её module Image.
 ``` sh
 pip install Pillow
@@ -25,9 +23,6 @@ pip install Pillow
 from PIL import Image as image
 ```
 И конечно же сама библиотека [selenium](https://www.seleniumhq.org/), а точнее её module webdriver
-| Наименование | Описание |
-| ---- | ---- |
-| selenium  | Библиотека для тестирования приложений |
 ``` sh
 pip install selenium
 ```
