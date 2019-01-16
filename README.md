@@ -1,4 +1,4 @@
-# ScreenshotAllPage
+# `#screenshotAllPage`
 
 [![Python](https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/SDKs_copy_Python-48.png)](https://www.python.org/)[![JavaScript](https://cdn2.iconfinder.com/data/icons/designer-skills/128/code-programming-javascript-software-develop-command-language-48.png)](https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics)[![git](https://cdn1.iconfinder.com/data/icons/iconza-circle-social/64/697061-github-48.png)](https://github.com/tabbols95)
 
@@ -65,6 +65,21 @@ fixedSize = 60 #сюда ввести высоту фиксированной с
 nameImg = "Name Image"
 ```
 
+#### О конвеере
+
+Для потока работы запустим конвеер:
+
+``` python
+file = open(r"test.txt", "r")
+rows = file.read().split('\n')
+for row in rows:
+    #тут много всякого различного кода
+    # ...
+    # ...
+    # тут еще много различного кода
+file.close()
+```
+
 #### О `JavaScript`
 
 Из `JavaScript` нам нужно знать совсем не много:
@@ -77,6 +92,13 @@ window.scrollBy(x, y) // передвижение скролл бара
 ```
 
 #### Последние обновления
+
+>Сегодня 16.01.2019 мы запустили аж целых 2 нормальных `commits`:
+
+`commit conveyor`
+
+* конвеер способствует построению множества скринов за один запуск программы;
+* ну и затестили файлом `test.txt`
 
 `commit Update fixed string`
 * скриншот страницы с фиксированной строкой;
