@@ -2,11 +2,11 @@
 
 [![Python](https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/SDKs_copy_Python-48.png)](https://www.python.org/)[![JavaScript](https://cdn2.iconfinder.com/data/icons/designer-skills/128/code-programming-javascript-software-develop-command-language-48.png)](https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics)[![git](https://cdn1.iconfinder.com/data/icons/iconza-circle-social/64/697061-github-48.png)](https://github.com/tabbols95)
 
-### Предыстория
+#### Предыстория
 
 Очень часто сталкивался с таким вопросом &quot; Как сделать скриншот html страницы в Python &quot;, &quot; Как сделать скриншот всей страницы в Python &quot; и даже пытался найти ответ на вопрос &quot; Screenshot all page from python &quot;, но поиски не давали упешных результатов и пришлось самостоятельно решать данную проблему. Именно этим и хочу с Вами поделиться.
 
-### Алгоритм
+#### Алгоритм
 
 Отвечаем на вопрос:
 
@@ -45,7 +45,27 @@ driver.maximize_window()
 driver.get("https://habr.com/")
 ```
 
-### О `JavaScript`
+#### О фиксированной строке и имени скрина
+
+Фиксированная строка и имя - одно из последних разработок модуля `screenAllPage`. Множество компания для удобного и быстрого перехода по своим сайтам используют так называемую фиксированную строку.
+
+> Фиксированная строка - это строка, которая при скроллинге всегда видна вверху страницы.
+
+Для активации фиксированной строки необходимо определить `size` этой фиксированной строки на сайте.
+![Example_fixedString](https://pp.userapi.com/c849216/v849216725/104a18/9B6z30voY2c.jpg)
+И ввести в код `python`:
+
+``` python
+fixedSize = 60 #сюда ввести высоту фиксированной строки (с погрешностью на тень в 3 - 5 px)
+```
+
+Для удобного сохранения и дальнейшего поиска файлов `\tmp` и `\result` введите в код `python` имя файла:
+
+``` python
+nameImg = "Name Image"
+```
+
+#### О `JavaScript`
 
 Из `JavaScript` нам нужно знать совсем не много:
 
@@ -56,14 +76,13 @@ innerWidth // ширина клиентского окна
 window.scrollBy(x, y) // передвижение скролл бара
 ```
 
-### Последние обновления
+#### Последние обновления
 
-`v 1.0.1`
-* Проработаны исключительные ситуации;
-* Папка временных файлов `/tmp`, папка с результатом `/result`;
-* Исправлена ошибка приклеивания последнего изображения;
-* Приведен пример скриншота сайта [habr](https://habr.com/).
+`commit Update fixed string`
+* скриншот страницы с фиксированной строкой;
+* упрощенный вариант задания имен скриншота;
+* примеры скриншотов сайтов [habr](https://habr.com/), [avito](https://www.avito.ru/), [progLib](https://proglib.io/) с сохранением временных файлов.
 
-### От автора
+#### От автора
 
 Подключившись к работе наслаждаемся, дописываем, переписываем, ждем обновлений.
