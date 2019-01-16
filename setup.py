@@ -7,7 +7,7 @@ import os
 
 driver = webdriver.Chrome("C:/drivers/chromedriver.exe")
 driver.maximize_window()
-driver.get("https://habr.com/")
+driver.get("https://github.com/tabbols95")
 
 total_height = driver.execute_script("return document.body.scrollHeight")
 print("Total height: " + str(total_height))
@@ -17,7 +17,18 @@ client_width = driver.execute_script("return innerWidth")
 print("Client width: " + str(client_width))
 
 i, count = 0, 0
-img = image.new("RGB", (client_width, total_height))
+nameImg = "GitHub (@tabbols95)"
+'''
+Для сайтов с фиксированым меню рассчитаем размеры изображения
+'''
+fixedSize = 60
+sizeImg = total_height/client_height
+if int(sizeImg) < sizeImg:
+	sizeImg = int(sizeImg)
+else:
+	sizeImg = int(sizeImg)
+
+img = image.new("RGB", (client_width, total_height - (fixedSize*(sizeImg-1))))
 
 # создаем папку /tmp (временных файлов) если она отсутствует
 try:
@@ -34,23 +45,28 @@ except FileExistsError:
 	print('Folder /result exists')
 
 while i < total_height:
-	driver.save_screenshot('tmp/screen{0}.png'.format(count))
-	time_img = image.open('tmp/screen{0}.png'.format(count))
+	driver.save_screenshot('tmp/{1}_tmp_{0}.png'.format(count, nameImg))
+	time_img = image.open('tmp/{1}_tmp_{0}.png'.format(count, nameImg))
 
 	if (count + 1) * client_height < total_height:
-		img.paste(time_img, (0, i))
+		if count > 0:
+			time_img = time_img.crop((0, fixedSize, client_width, client_height))
+			img.paste(time_img, (0, i))
+		else:
+			img.paste(time_img, (0, i))
+
 	else:
-		area = (0, (count + 1) * client_height - total_height, client_width, client_height)
+		area = (0, (count + 1) * client_height - total_height - (fixedSize*(sizeImg-1)), client_width, client_height)
 		time_img = time_img.crop(area)
 		img.paste(time_img, (0, i))
 
-	os.remove('tmp/screen{0}.png'.format(count))
+	#os.remove('tmp/{1}_tmp_{0}.png'.format(count, nameImg))
 
-	i += client_height
+	i += client_height - fixedSize
 
-	driver.execute_script("window.scrollBy(0, {0})".format(client_height))
+	driver.execute_script("window.scrollBy(0, {0})".format(client_height - fixedSize))
 	count += 1
 
-img.save("result/image.png")
+img.save("result/{0}.png".format(nameImg))
 
 driver.quit()
