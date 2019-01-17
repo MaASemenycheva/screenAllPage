@@ -1,6 +1,8 @@
 from selenium import webdriver
 from PIL import Image as image
 import os
+import random
+import time
 
 # [path driver] - путь до папки с драйвером
 # [site] - сайт, для которого необходимо сделать скриншот
@@ -12,6 +14,9 @@ rows = file.read().split('\n')
 for row in rows:
 	print(row)
 	driver.get(row)
+	#driver.execute_script('return document.getElementsByClassName("item-phone-button")[1].click()')
+	#time.sleep(2)
+	#driver.execute_script('return document.getElementsByClassName("close")[2].click()')
 
 	total_height = driver.execute_script("return document.body.scrollHeight")
 	print("Total height: " + str(total_height))
@@ -19,20 +24,32 @@ for row in rows:
 	print("Client height: " + str(client_height))
 	client_width = driver.execute_script("return innerWidth")
 	print("Client width: " + str(client_width))
-
-	i, count = 0, 0
-	nameImg = str(row.split("_")[-1])
+	
 	'''
-	Для сайтов с фиксированым меню рассчитаем размеры изображения
+		Автоматизация задания случайных имен
+	'''
+	
+	nameImg = ""
+	
+	for counterRandName in range(0, 12):
+		A = random.randint(0,2)
+		if A == 0:
+			nameImg += str(random.choice("qwertyuiopasdfghjklzxcvbnm"))
+		elif A == 1:
+			nameImg += str(random.randint(0,10))
+		elif A == 2:
+			nameImg += str(random.choice("QWERTYUIOPASDFGHJKLZXCVBNM"))
+	#nameImg = str(row.split("_")[-1])
+	'''
+		Рассчитаем высоту изображения с учетом возможности появления
+		фиксированных строк
 	'''
 	fixedSize = 60
-	sizeImg = total_height/client_height
-	if int(sizeImg) < sizeImg:
-		sizeImg = int(sizeImg)
-	else:
-		sizeImg = int(sizeImg)
-
-	img = image.new("RGB", (client_width, total_height - (fixedSize*(sizeImg-1))))
+	sizeImgBuild = 0
+	count = 0
+	sizeImgUnit = total_height/client_height
+	#sizeImg = client_height + (client_height - fixedSize)*(sizeImgUnit-1)
+	img = image.new("RGB", (client_width, total_height))
 
 	# создаем папку /tmp (временных файлов) если она отсутствует
 	try:
@@ -48,25 +65,31 @@ for row in rows:
 	except FileExistsError:
 		print('Folder /result exists')
 
-	while i < total_height:
+	while sizeImgBuild < total_height:
 		driver.save_screenshot('tmp/{1}_tmp_{0}.png'.format(count, nameImg))
 		time_img = image.open('tmp/{1}_tmp_{0}.png'.format(count, nameImg))
 
-		if (count + 1) * client_height < total_height:
-			if count > 0:
+		if sizeImgBuild + (client_height - fixedSize) <= total_height:
+			if sizeImgBuild >= client_height:
 				time_img = time_img.crop((0, fixedSize, client_width, client_height))
-				img.paste(time_img, (0, i))
+				img.paste(time_img, (0, sizeImgBuild))
 			else:
-				img.paste(time_img, (0, i))
-
+				img.paste(time_img, (0, sizeImgBuild))
 		else:
-			area = (0, (count + 1) * client_height - total_height - (fixedSize*(sizeImg-1)), client_width, client_height)
-			time_img = time_img.crop(area)
-			img.paste(time_img, (0, i))
+			time_img = time_img.crop((0, (sizeImgBuild + (client_height) - total_height), client_width, client_height))
+			img.paste(time_img, (0, sizeImgBuild))
 
+		'''
+			Временные файлы служат для склеивания из множества изображений в одно
+			Так как таких файлов может быть множество, то для немедленного удаления
+			их разблокируйте блок ниже
+		'''
 		#os.remove('tmp/{1}_tmp_{0}.png'.format(count, nameImg))
-
-		i += client_height - fixedSize
+		
+		if sizeImgBuild < client_height:
+			sizeImgBuild += client_height
+		else:
+			sizeImgBuild += (client_height - fixedSize)
 
 		driver.execute_script("window.scrollBy(0, {0})".format(client_height - fixedSize))
 		count += 1
