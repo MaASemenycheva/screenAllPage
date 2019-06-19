@@ -8,7 +8,7 @@ import time
 
 # [path driver] - путь до папки с драйвером
 
-driver = webdriver.Chrome('''[path driver]''')
+driver = webdriver.Chrome(r'[path driver]')
 driver.maximize_window()
 now = datetime.now()
 file = open(r"test.txt", "r")
@@ -18,15 +18,16 @@ for row in rows:
 	driver.get(row)
 
 	# кнопочки для некоторых сайтов
+	# на примере сайта Avito.ru
 	#driver.execute_script('return document.getElementsByClassName("item-phone-button")[1].click()')
 	#time.sleep(3)
-	#driver.execute_script('return document.getElementsByClassName("close")[2].click()')
+	#driver.execute_script('return document.getElementsByClassName("close")[1].click()')
 
 	total_height = driver.execute_script("return document.body.scrollHeight")
 	print("Total height: " + str(total_height))
 	client_height = driver.execute_script("return innerHeight")
 	print("Client height: " + str(client_height))
-	client_width = driver.execute_script("return innerWidth")
+	client_width = driver.execute_script("return innerWidth") - 17 #px - scroll bar
 	print("Client width: " + str(client_width))
 
 	'''
